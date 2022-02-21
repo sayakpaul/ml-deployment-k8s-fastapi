@@ -5,12 +5,13 @@ Adapted from:
 (2) https://github.com/aniketmaurya/tensorflow-fastapi-starter-pack
 """
 
+import urllib.request
+
 import onnxruntime as ort
 import json
 
 from fastapi import FastAPI, File, HTTPException
 from utils import prepare_image, decode_predictions
-
 
 app = FastAPI(title="ONNX image classification API")
 
@@ -22,11 +23,19 @@ async def home():
 
 @app.on_event("startup")
 def load_modules():
+    model_filename = 'resnet50_w_preprocessing.onnx'
+    model_url = f'https://github.com/sayakpaul/ml-deployment-k8s-fastapi/releases/download/v1.0.0/{model_filename}'
+    urllib.request.urlretrieve(model_url, model_filename)
+
     global resnet_model_sess
-    resnet_model_sess = ort.InferenceSession("resnet50_w_preprocessing.onnx")
+    resnet_model_sess = ort.InferenceSession(model_filename)
+
+    category_filename = 'imagenet_classes.txt'
+    category_url = f'https://raw.githubusercontent.com/pytorch/hub/master/{category_filename}'
+    urllib.request.urlretrieve(category_url, category_filename)
 
     global imagenet_categories
-    with open("imagenet_classes.txt", "r") as f:
+    with open(category_filename, "r") as f:
         imagenet_categories = [s.strip() for s in f.readlines()]
 
 
