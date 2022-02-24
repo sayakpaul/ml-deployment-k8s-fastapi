@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: ${APP_ID}
+  name: ${APP_ID}
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: ${APP_ID}
+  type: LoadBalancer
+status:
+  loadBalancer: {}
