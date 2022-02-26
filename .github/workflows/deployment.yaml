@@ -21,27 +21,27 @@ jobs:
       - name: Git
         uses: actions/checkout@v2
       
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'  
+      # - name: Set up Python 3.8
+      #   uses: actions/setup-python@v2
+      #   with:
+      #     python-version: '3.8'  
 
-      - name: Set up cache
-        uses: actions/cache@master
-        id: cache
-        with:
-          path: ${{ env.pythonLocation}}/lib/python3.8/site-packages/*
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
+      # - name: Set up cache
+      #   uses: actions/cache@master
+      #   id: cache
+      #   with:
+      #     path: ${{ env.pythonLocation}}/lib/python3.8/site-packages/*
+      #     key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-pip-
+      #       ${{ runner.os }}-
             
-      - name: Install Python dependencies
-        working-directory: api
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: |
-          echo "Installing dependencies and caching them."
-          pip install -r requirements.txt
+      # - name: Install Python dependencies
+      #   working-directory: api
+      #   if: steps.cache.outputs.cache-hit != 'true'
+      #   run: |
+      #     echo "Installing dependencies and caching them."
+      #     pip install -r requirements.txt
 
       - name: GCP auth
         uses: google-github-actions/auth@v0
