@@ -63,4 +63,6 @@ jobs:
           location: ${{ env.GKE_REGION }}
 
       - id: 'get-pods'
-        run: 'kubectl get pods'
+        run: |
+          gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_REGION }} --project ${{ env.GCP_PROJECT_ID }}
+          kubectl get pods --all-namespaces
