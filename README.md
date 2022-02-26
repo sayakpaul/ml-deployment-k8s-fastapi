@@ -1,17 +1,19 @@
-# ml-deployment-k8s-fastapi
-This project shows how to serve an ONNX-optimized image classification model as a
-web service with FastAPI, Docker, and Kubernetes (k8s). The idea is to first
-Dockerize the API and then deploy it on a k8s cluster running on [Google Kubernetes
-Engine (GKE)](https://cloud.google.com/kubernetes-engine). We do this integration
-using [GitHub Actions](https://github.com/features/actions).
+# Deploying ML models with FastAPI, Docker, and Kubernetes
 
 *By: Sayak Paul and [Chansung Park](https://github.com/deep-diver)*
 
+This project shows how to serve an ONNX-optimized image classification model as a
+RESTful web service with FastAPI, Docker, and Kubernetes (k8s). The idea is to first
+Dockerize the API and then deploy it on a k8s cluster running on [Google Kubernetes
+Engine (GKE)](https://cloud.google.com/kubernetes-engine). We do this integration
+using [GitHub Actions](https://github.com/features/actions). Even though this project 
+uses an image classification the structure and the techniques can be used to serve
+other models as well.
 
 ## Deploying the model as a service with k8s
 
-* We decouple the model optimization part from our API code. It's available within
-`notebooks/TF_to_ONNX.ipynb`.
+* We decouple the model optimization part from our API code. The optimization part is
+available within the `notebooks/TF_to_ONNX.ipynb` notebook.
 * Then we locally test the API. You can find the instructions within the `api`
 directory.
 * To deploy the API, we define our `deployment.yaml` workflow file inside `.github/workflows`.
@@ -51,8 +53,9 @@ contents of the service account key file into the secret.
     ```
 * If you're on the `main` branch already then upon a new push, the worflow defined
 in `.github/workflows/deployment.yaml` should automatically run. Here's how the
-final outputs should look like:
+final outputs should look like so ([run link](https://github.com/sayakpaul/ml-deployment-k8s-fastapi/runs/5343002731)):
 
+![](https://i.ibb.co/MnTtnJ3/image.png)
 
 ## Notes
 
@@ -73,6 +76,13 @@ your service like so). Then cURL it:
 
 ```shell
 curl -X POST -F image_file=@cat.jpg http://{EXTERNAL-IP}:80/predict/image
+```
+
+You should get the following output (if you're using the `cat.jpg` image present
+in the `api` directory):
+
+```shell
+"{\"Label\": \"tabby\", \"Score\": \"0.538\"}"
 ```
 
 The request assumes that you have a file called `cat.jpg` present in your
