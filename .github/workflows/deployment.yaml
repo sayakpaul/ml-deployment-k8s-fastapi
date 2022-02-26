@@ -52,5 +52,15 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v0
 
-      - name: 'Use gcloud CLI'
-        run: gcloud info
+      - name: Docker auth
+        run: |-
+          gcloud --quiet auth configure-docker
+      
+      - name: GKE auth
+        uses: google-github-actions/get-gke-credentials@v0
+        with:
+          cluster_name: ${{ env.GKE_CLUSTER }}
+          location: ${{ env.GKE_REGION }}
+
+      - id: 'get-pods'
+        run: 'kubectl get pods'
