@@ -81,14 +81,16 @@ jobs:
           docker push "$IMAGE:latest"
 
       - name: Set up Kustomize
-        working-directory: .kube/base
+        working-directory: .kube/
+        if: steps.changes.outputs.src == 'true'
         run: |-
           curl -sfLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.1.2/kustomize_v4.1.2_linux_amd64.tar.gz
           tar -zxvf kustomize.tar.gz
           chmod u+x ./kustomize
       
       - name: Deploy to GKE
-        working-directory: .kube/base
+        working-directory: .kube/
+        if: steps.changes.outputs.src == 'true'
         run: |-
           ./kustomize edit set image $IMAGE:$GITHUB_SHA
           ./kustomize build . | kubectl apply -f -
