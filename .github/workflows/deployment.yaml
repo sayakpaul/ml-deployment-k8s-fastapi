@@ -61,7 +61,35 @@ jobs:
           cluster_name: ${{ env.GKE_CLUSTER }}
           location: ${{ env.GKE_REGION }}
 
-      - id: 'get-pods'
+      - name: Check if the requested directories have any changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+            filters: |
+                src:
+                  - 'api/**'
+                  - '.github/**'
+                  - '.kube/**'
+                  - Dockerfile
+
+      - name: Build and push Docker image based on the changes
+        if: steps.changes.outputs.src == 'true'
         run: |
-          gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} --region ${{ env.GKE_REGION }} --project ${{ env.GCP_PROJECT_ID }}
-          kubectl get pods --all-namespaces
+          docker build --tag "$IMAGE:$GITHUB_SHA" .
+          docker tag "$IMAGE:$GITHUB_SHA" "$IMAGE:latest"
+          docker push "$IMAGE:$GITHUB_SHA"
+          docker push "$IMAGE:latest"
+
+      - name: Set up Kustomize
+        working-directory: .kube/base
+        run: |-
+          curl -sfLo kustomize.tar.gz https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv4.1.2/kustomize_v4.1.2_linux_amd64.tar.gz
+          tar -zxvf kustomize.tar.gz
+          chmod u+x ./kustomize
+      
+      - name: Deploy to GKE
+        working-directory: .kube/base
+        run: |-
+          ./kustomize edit set image $IMAGE:$GITHUB_SHA
+          ./kustomize build . | kubectl apply -f -
+          kubectl rollout status deployment/$GKE_DEPLOYMENT
