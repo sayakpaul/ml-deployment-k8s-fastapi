@@ -6,7 +6,6 @@ env:
   GKE_REGION: "us-central1"
   IMAGE: "gcr.io/fast-ai-exploration/fastapi-k8s"
   GKE_DEPLOYMENT: "fastapi-server"
-  GKE_NAMESPACE: "ucapi"
 
 on:
   push:
