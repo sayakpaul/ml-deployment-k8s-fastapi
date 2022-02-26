@@ -1,0 +1,45 @@
+name: Deployment
+
+env:
+  GCP_PROJECT_ID: "fast-ai-exploration"
+  GKE_CLUSTER: "fastapi-cluster"
+  GKE_REGION: "us-central1"
+  IMAGE: "gcr.io/fast-ai-exploration/fastapi-k8s"
+  GKE_DEPLOYMENT: "fastapi-server"
+  GKE_NAMESPACE: "ucapi"
+
+on:
+  push:
+    branches: [ "main" ]
+
+    # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git
+        uses: actions/checkout@v2
+      
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'  
+
+      - name: Set up cache
+        uses: actions/cache@master
+        working-directory: api
+        with:
+          path: ${{ env.pythonLocation}}/lib/python3.7/site-packages/*
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+            
+      - name: Install Python dependencies
+        working-directory: api
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          echo "Installing dependencies and caching them."
+          pip install -r requirements.txt
