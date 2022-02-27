@@ -6,9 +6,10 @@ This project shows how to serve an ONNX-optimized image classification model as 
 RESTful web service with FastAPI, Docker, and Kubernetes (k8s). The idea is to first
 Dockerize the API and then deploy it on a k8s cluster running on [Google Kubernetes
 Engine (GKE)](https://cloud.google.com/kubernetes-engine). We do this integration
-using [GitHub Actions](https://github.com/features/actions). Even though this project 
-uses an image classification its structure and techniques can be used to serve
-other models as well.
+using [GitHub Actions](https://github.com/features/actions). 
+
+👋 **Note**: Even though this project uses an image classification its structure and techniques can
+be used to serve other models as well.
 
 ## Deploying the model as a service with k8s
 
@@ -60,7 +61,10 @@ final outputs should look like so ([run link](https://github.com/sayakpaul/ml-de
 
 ## Notes
 
-We use [Kustomize](https://kustomize.io) to manage the deployment on k8s.
+* Since we use CPU-based pods within the k8s cluster, we use ONNX optimizations
+  since they are known to provide performance speed-ups for CPU-based environments.
+  If you are using GPU-based pods then look into [TensorRT](https://developer.nvidia.com/tensorrt). 
+* We use [Kustomize](https://kustomize.io) to manage the deployment on k8s.
 
 ## Querying the API endpoint
 
