@@ -7,7 +7,7 @@ RESTful web service with FastAPI, Docker, and Kubernetes (k8s). The idea is to f
 Dockerize the API and then deploy it on a k8s cluster running on [Google Kubernetes
 Engine (GKE)](https://cloud.google.com/kubernetes-engine). We do this integration
 using [GitHub Actions](https://github.com/features/actions). Even though this project 
-uses an image classification the structure and the techniques can be used to serve
+uses an image classification its structure and techniques can be used to serve
 other models as well.
 
 ## Deploying the model as a service with k8s
@@ -18,6 +18,7 @@ available within the `notebooks/TF_to_ONNX.ipynb` notebook.
 directory.
 * To deploy the API, we define our `deployment.yaml` workflow file inside `.github/workflows`.
 It does the following tasks:
+
     * Looks for any changes in the specified directory. If there are any changes:
     * Builds and pushes the latest Docker image to Google Container Register (GCR).
     * Deploys the Docker container on the k8s cluster running on GKE. 
