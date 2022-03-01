@@ -57,7 +57,7 @@ contents of the service account key file into the secret.
 in `.github/workflows/deployment.yaml` should automatically run. Here's how the
 final outputs should look like so ([run link](https://github.com/sayakpaul/ml-deployment-k8s-fastapi/runs/5343002731)):
 
-![](https://i.ibb.co/MnTtnJ3/image.png)
+![](https://i.ibb.co/fDGFbpr/Screenshot-2022-03-01-at-12-25-42-PM.png)
 
 ## Notes
 
