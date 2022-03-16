@@ -8,15 +8,6 @@ Install the dependencies:
 $ pip install -r requirements.txt
 ```
 
-Get the required files:
-
-```sh
-$ wget https://github.com/sayakpaul/ml-deployment-k8s-fastapi/releases/download/v1.0.0/resnet50_w_preprocessing.onnx \
-    -O resnet50_w_preprocessing.onnx
-$ wget https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt \
-    -O imagenet_classes.txt
-```
-
 Download a test image:
 
 ```sh
