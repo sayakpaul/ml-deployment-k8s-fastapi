@@ -1,4 +1,4 @@
-This directory exposes the ONNX model we converted in [this notebook](https://github.com/sayakpaul/ml-deployment-k8s-fastapi/blob/main/notebooks/TF_to_ONNX.ipynb) as a REST API using [FastAPI](https://fastapi.tiangolo.com/).
+This directory exposes a ResNet50 model from [`tf.keras.applications`](https://keras.io/api/applications/resnet/#resnet50-function) as a REST API using [FastAPI](https://fastapi.tiangolo.com/).
 
 ## Setup 
 
@@ -6,15 +6,6 @@ Install the dependencies:
 
 ```sh
 $ pip install -r requirements.txt
-```
-
-Get the required files:
-
-```sh
-$ wget https://github.com/sayakpaul/ml-deployment-k8s-fastapi/releases/download/v1.0.0/resnet50_w_preprocessing.onnx \
-    -O resnet50_w_preprocessing.onnx
-$ wget https://raw.githubusercontent.com/pytorch/hub/master/imagenet_classes.txt \
-    -O imagenet_classes.txt
 ```
 
 Download a test image:
@@ -27,6 +18,12 @@ $ wget http://images.cocodataset.org/val2017/000000039769.jpg -O cat.jpg
 
 ```sh
 $ uvicorn main:app --reload
+```
+
+If you want to specify the number of `uvicorn` workers you can do so:
+
+```sh
+uvicorn main:app --reload --workers 4
 ```
 
 It should show something like so:
