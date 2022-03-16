@@ -1,1 +1,1 @@
-from .utils import prepare_image, decode_predictions
+from .utils import decode_predictions, prepare_image
