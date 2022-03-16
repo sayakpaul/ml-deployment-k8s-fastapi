@@ -1,8 +1,8 @@
-import numpy as np
 import io
+from typing import Dict, List
 
+import numpy as np
 from fastapi import HTTPException
-from typing import List, Dict
 from PIL import Image
 
 
