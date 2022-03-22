@@ -1,6 +1,8 @@
-from locust import HttpUser, task
+from locust import HttpUser, task, constant
 
-class HelloWorldUser(HttpUser):
+class ImgClssificationUser(HttpUser):
+    wait_time = constant(1)
+
     @task
     def predict(self):
         attach = open('cat.jpg', 'rb')
