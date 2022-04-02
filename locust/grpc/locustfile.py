@@ -41,7 +41,7 @@ class ImgClssificationUser(User):
         self.request.inputs["image_input"].CopyFrom(
             tf.make_tensor_proto(sample_image)
         )
-        preds = self.stub.Predict(self.request, 50.0)
+        preds = self.stub.Predict(self.request, 20.0)
 
         # Uncomment to debug.
         # preds.outputs["resnet50"].float_val
