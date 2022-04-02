@@ -41,9 +41,9 @@ class ImgClssificationUser(User):
         self.request.inputs["image_input"].CopyFrom(
             tf.make_tensor_proto(sample_image)
         )
-        preds = self.stub.Predict(self.request, 20.0)
+        preds = self.stub.Predict(self.request, 30.0)
 
         # Uncomment to debug.
-        # preds.outputs["resnet50"].float_val
-        # preds = np.array(preds).reshape(32, -1)
-        # print("Prediction class: {}".format(np.argmax(preds, axis=-1)))
+        preds = preds.outputs["resnet50"].float_val
+        preds = np.array(preds).reshape(1, -1)
+        print("Prediction class: {}".format(np.argmax(preds, axis=-1)))

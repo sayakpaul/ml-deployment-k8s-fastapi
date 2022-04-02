@@ -119,7 +119,7 @@ table.stats tr.total td {
 
         <div class="info">
             
-            <p>During: <span class="l10n datetime">2022-04-02 04:50:19</span> - <span class="l10n datetime">2022-04-02 04:50:19</span></p>
+            <p>During: <span class="l10n datetime">2022-04-02 05:15:31</span> - <span class="l10n datetime">2022-04-02 05:15:31</span></p>
             <p>Target Host: <span>None</span></p>
             <p>Script: <span>locustfile.py</span></p>
         </div>
@@ -480,12 +480,12 @@ function fillTasksFromRequest() {
     <script>
         
 var stats_history = {
-    "time": ["04:50:24", "04:50:29", "04:50:34", "04:50:39", "04:50:44", "04:50:49", "04:50:54", "04:50:59", "04:51:04", "04:51:09", "04:51:14", "04:51:19", "04:51:24", "04:51:29", "04:51:34"].map(server_time => new Date(new Date().setUTCHours(...(server_time.split(":")))).toLocaleTimeString()),
-    "user_count": [{"value": 5}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}, {"value": 10}],
-    "current_rps": [{"users": 5, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}],
-    "current_fail_per_sec": [{"users": 5, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}],
-    "response_time_percentile_50": [{"users": 5, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}],
-    "response_time_percentile_95": [{"users": 5, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}, {"users": 10, "value": 0}],
+    "time": ["05:15:36"].map(server_time => new Date(new Date().setUTCHours(...(server_time.split(":")))).toLocaleTimeString()),
+    "user_count": [{"value": 5}],
+    "current_rps": [{"users": 5, "value": 0}],
+    "current_fail_per_sec": [{"users": 5, "value": 0}],
+    "response_time_percentile_50": [{"users": 5, "value": 0}],
+    "response_time_percentile_95": [{"users": 5, "value": 0}],
     "markers": [],
 };
         var rpsChart = new LocustLineChart($(".charts-container"), "Total Requests per Second", ["RPS", "Failures/s"], "reqs/s", ['#00ca5a', '#ff6d6d']);

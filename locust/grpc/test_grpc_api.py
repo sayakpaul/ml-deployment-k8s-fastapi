@@ -19,5 +19,5 @@ request.inputs["image_input"].CopyFrom(tf.make_tensor_proto(image))
 grpc_predictions = stub.Predict(request, 25.0)
 
 grpc_predictions = grpc_predictions.outputs["resnet50"].float_val
-grpc_predictions = np.array(grpc_predictions).reshape(len(image), -1)
+grpc_predictions = np.array(grpc_predictions).reshape(1, -1)
 print("Prediction class: {}".format(np.argmax(grpc_predictions, axis=-1)))
