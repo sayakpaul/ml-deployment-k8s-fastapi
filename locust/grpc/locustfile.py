@@ -44,6 +44,6 @@ class ImgClssificationUser(User):
         preds = self.stub.Predict(self.request, 30.0)
 
         # Uncomment to debug.
-        preds = preds.outputs["resnet50"].float_val
-        preds = np.array(preds).reshape(1, -1)
-        print("Prediction class: {}".format(np.argmax(preds, axis=-1)))
+        # preds = preds.outputs["resnet50"].float_val
+        # preds = np.array(preds).reshape(1, -1)
+        # print("Prediction class: {}".format(np.argmax(preds, axis=-1)))
