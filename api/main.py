@@ -29,17 +29,6 @@ def load_modules():
     global resnet_model_sess
     resnet_model_sess = ort.InferenceSession(model_filename)
 
-    category_filename = "imagenet_classes.txt"
-    category_url = (
-        f"https://raw.githubusercontent.com/pytorch/hub/master/{category_filename}"
-    )
-    urllib.request.urlretrieve(category_url, category_filename)
-
-    global imagenet_categories
-    with open(category_filename, "r") as f:
-        imagenet_categories = [s.strip() for s in f.readlines()]
-
-
 @app.post("/predict/image")
 async def predict_api(image_file: bytes = File(...)):
 
@@ -51,6 +40,4 @@ async def predict_api(image_file: bytes = File(...)):
         )
 
     predictions = resnet_model_sess.run(None, {"image_input": image})[0]
-    response_dict = decode_predictions(predictions, imagenet_categories)
-
-    return json.dumps(response_dict)
+    return f"result: {predictions}"
