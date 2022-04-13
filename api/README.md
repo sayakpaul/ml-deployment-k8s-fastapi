@@ -33,7 +33,7 @@ INFO:     Application startup complete.
 Note the port number and run a request:
 
 ```sh
-$ curl -X POST -F image_file=@cat.jpg http://localhost:8000/predict/image
+$ curl -X POST -F image_file=@cat.jpg -F with_resizing=True http://localhost:8000/predict/image
 ```
 
 It should output:
