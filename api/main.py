@@ -10,7 +10,10 @@ import urllib.request
 
 import onnxruntime as ort
 from fastapi import FastAPI, File, HTTPException
+from pydantic import BaseModel
+from typing import Optional
 from utils import decode_predictions, prepare_image
+
 
 app = FastAPI(title="ONNX image classification API")
 
@@ -37,13 +40,19 @@ def load_modules():
 
     global imagenet_categories
     with open(category_filename, "r") as f:
-        imagenet_categories = [s.strip() for s in f.readlines()]
+        imagenet_categories = [s.strip() for s in f.readlines()]    
+
+
+class PredictionReq(BaseModel):
+    """Request payload for /predict/image"""
+    image_files: bytes
+    with_resizing: Optional[bool] = False
 
 
 @app.post("/predict/image")
-async def predict_api(image_file: bytes = File(...)):
+async def predict_api(req: PredictionReq):
 
-    image = prepare_image(image_file)
+    image = prepare_image(req.image_file, req.with_resizing)
 
     if len(image.shape) != 4:
         raise HTTPException(
