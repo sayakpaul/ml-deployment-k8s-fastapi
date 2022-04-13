@@ -10,7 +10,10 @@ import urllib.request
 
 import onnxruntime as ort
 from fastapi import FastAPI, File, HTTPException
+from pydantic import BaseModel
+from typing import Optional
 from utils import decode_predictions, prepare_image
+
 
 app = FastAPI(title="ONNX image classification API")
 
@@ -29,10 +32,27 @@ def load_modules():
     global resnet_model_sess
     resnet_model_sess = ort.InferenceSession(model_filename)
 
-@app.post("/predict/image")
-async def predict_api(image_file: bytes = File(...)):
+    category_filename = "imagenet_classes.txt"
+    category_url = (
+        f"https://raw.githubusercontent.com/pytorch/hub/master/{category_filename}"
+    )
+    urllib.request.urlretrieve(category_url, category_filename)
 
-    image = prepare_image(image_file)
+    global imagenet_categories
+    with open(category_filename, "r") as f:
+        imagenet_categories = [s.strip() for s in f.readlines()]    
+
+
+class PredictionReq(BaseModel):
+    """Request payload for /predict/image"""
+    image_files: bytes
+    with_resizing: Optional[bool] = False
+
+
+@app.post("/predict/image")
+async def predict_api(req: PredictionReq):
+
+    image = prepare_image(req.image_file, req.with_resizing)
 
     if len(image.shape) != 4:
         raise HTTPException(
@@ -40,4 +60,6 @@ async def predict_api(image_file: bytes = File(...)):
         )
 
     predictions = resnet_model_sess.run(None, {"image_input": image})[0]
-    return f"result: {predictions}"
+    response_dict = decode_predictions(predictions, imagenet_categories)
+
+    return json.dumps(response_dict)
