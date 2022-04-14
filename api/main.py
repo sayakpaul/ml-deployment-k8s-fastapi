@@ -9,8 +9,7 @@ import json
 import urllib.request
 
 import onnxruntime as ort
-from fastapi import FastAPI, File, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI, File, Form, HTTPException
 from typing import Optional
 from utils import decode_predictions, prepare_image
 
@@ -43,23 +42,20 @@ def load_modules():
         imagenet_categories = [s.strip() for s in f.readlines()]    
 
 
-class PredictionReq(BaseModel):
-    """Request payload for /predict/image"""
-    image_files: bytes
-    with_resizing: Optional[bool] = False
+ @app.post("/predict/image")
+ async def predict_api(image_file: bytes = File(...), with_resize: bool = Form(...), with_post_process: bool = Form(...)):
+     image = prepare_image(image_file, with_resize)
 
+     if len(image.shape) != 4:
+         raise HTTPException(
+             status_code=400, detail="Only 3-channel RGB images are supported."
+         )
 
-@app.post("/predict/image")
-async def predict_api(req: PredictionReq):
+     predictions = resnet_model_sess.run(None, {"image_input": image})[0]
+     if with_post_process:
+        response_dict = decode_predictions(predictions, imagenet_categories)
+        return json.dumps(response_dict)
+     else:
+         return "OK"
 
-    image = prepare_image(req.image_file, req.with_resizing)
-
-    if len(image.shape) != 4:
-        raise HTTPException(
-            status_code=400, detail="Only 3-channel RGB images are supported."
-        )
-
-    predictions = resnet_model_sess.run(None, {"image_input": image})[0]
-    response_dict = decode_predictions(predictions, imagenet_categories)
-
-    return json.dumps(response_dict)
+     

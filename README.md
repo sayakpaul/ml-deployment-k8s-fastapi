@@ -80,7 +80,7 @@ Note the `EXTERNAL-IP` corresponding to `fastapi-server` (iff you have named
 your service like so). Then cURL it:
 
 ```shell
-curl -X POST -F image_file=@cat.jpg -F with_resizing=True http://{EXTERNAL-IP}:80/predict/image
+curl -X POST -F image_file=@cat.jpg -F with_resize=True -F with_post_process=True http://{EXTERNAL-IP}:80/predict/image
 ```
 
 You should get the following output (if you're using the `cat.jpg` image present

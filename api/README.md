@@ -33,7 +33,7 @@ INFO:     Application startup complete.
 Note the port number and run a request:
 
 ```sh
-$ curl -X POST -F image_file=@cat.jpg -F with_resizing=True http://localhost:8000/predict/image
+$ curl -X POST -F image_file=@cat.jpg -F with_resize=True -F with_post_process=True http://localhost:8000/predict/image
 ```
 
 It should output:
@@ -42,3 +42,15 @@ It should output:
 "{\"Label\": \"tabby\", \"Score\": \"0.538\"}"
 ```
 
+### Client request code in Python
+
+```python
+import requests
+
+url='http://localhost:8000/predict/image'
+payload={'with_resize': True, 'with_post_process': True}
+files = {'image_file': open('cat.jpg', 'rb')}
+
+resp = requests.post(url=url, data=payload, files = files)
+print(resp.json())
+```
