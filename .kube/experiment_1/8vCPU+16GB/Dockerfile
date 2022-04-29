@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 COPY ./api /app
 
 # run the fastAPI app
-CMD ["gunicorn", "main:app", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:80"]
+CMD ["gunicorn", "main:app", "--workers", "17", "--worker-class", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:80"]
