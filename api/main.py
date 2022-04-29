@@ -39,7 +39,7 @@ def load_modules():
 
     global imagenet_categories
     with open(category_filename, "r") as f:
-        imagenet_categories = [s.strip() for s in f.readlines()]    
+        imagenet_categories = [s.strip() for s in f.readlines()]
 
 
 @app.post("/predict/image")
@@ -57,5 +57,3 @@ async def predict_api(image_file: bytes = File(...), with_resize: bool = Form(..
         return json.dumps(response_dict)
     else:
         return "OK"
-
-     
