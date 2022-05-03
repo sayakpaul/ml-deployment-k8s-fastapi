@@ -43,12 +43,12 @@ def stopwatch(func):
     return wrapper
 
 class GRPCMyLocust(FastHttpUser):
-    host = 'http://35.192.2.11'
+    host = 'http://<<EXTERNAL-CLUSTER-IP>>'
     wait_time = constant(1)
 
     def __init__(self, environment):
         super().__init__(environment)
-        self.channel = grpc.insecure_channel("35.192.2.11:8500")
+        self.channel = grpc.insecure_channel("<<EXTERNAL-CLUSTER-IP>>:8500")
         self.stub = prediction_service_pb2_grpc.PredictionServiceStub(
             self.channel
         )
