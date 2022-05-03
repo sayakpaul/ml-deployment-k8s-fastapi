@@ -43,12 +43,12 @@ def stopwatch(func):
     return wrapper
 
 class GRPCMyLocust(FastHttpUser):
-    host = 'http://104.155.184.208'
+    host = 'http://35.192.2.11'
     wait_time = constant(1)
 
     def __init__(self, environment):
         super().__init__(environment)
-        self.channel = grpc.insecure_channel("104.155.184.208:8500")
+        self.channel = grpc.insecure_channel("35.192.2.11:8500")
         self.stub = prediction_service_pb2_grpc.PredictionServiceStub(
             self.channel
         )
@@ -69,7 +69,9 @@ class GRPCMyLocust(FastHttpUser):
     def grpc_client_task(self):
         """To be updated"""
         try:
-            sample_image = tf.image.decode_jpeg(tf.io.read_file("./cat_224x224.jpg"))
+            sample_image = tf.image.decode_jpeg(tf.io.read_file("./cat_224x224.jpeg"))
+            sample_image = tf.expand_dims(sample_image, axis=0)
+            sample_image = tf.cast(sample_image, dtype=tf.float32)
 
             self.request.inputs["image_input"].CopyFrom(
                 tf.make_tensor_proto(sample_image)
