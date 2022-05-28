@@ -47,10 +47,10 @@ It should output:
 ```python
 import requests
 
-url='http://localhost:8000/predict/image'
-payload={'with_resize': True, 'with_post_process': True}
-files = {'image_file': open('cat.jpg', 'rb')}
+url = "http://localhost:8000/predict/image"
+payload = {"with_resize": True, "with_post_process": True}
+files = {"image_file": open("cat.jpg", "rb")}
 
-resp = requests.post(url=url, data=payload, files = files)
+resp = requests.post(url=url, data=payload, files=files)
 print(resp.json())
 ```

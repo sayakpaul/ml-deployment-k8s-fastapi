@@ -10,9 +10,8 @@ import urllib.request
 
 import onnxruntime as ort
 from fastapi import FastAPI, File, Form, HTTPException
-from typing import Optional
-from utils import decode_predictions, prepare_image
 
+from utils import decode_predictions, prepare_image
 
 app = FastAPI(title="ONNX image classification API")
 
@@ -32,9 +31,7 @@ def load_modules():
     resnet_model_sess = ort.InferenceSession(model_filename)
 
     category_filename = "imagenet_classes.txt"
-    category_url = (
-        f"https://raw.githubusercontent.com/pytorch/hub/master/{category_filename}"
-    )
+    category_url = f"https://raw.githubusercontent.com/pytorch/hub/master/{category_filename}"
     urllib.request.urlretrieve(category_url, category_filename)
 
     global imagenet_categories
@@ -43,7 +40,11 @@ def load_modules():
 
 
 @app.post("/predict/image")
-async def predict_api(image_file: bytes = File(...), with_resize: bool = Form(...), with_post_process: bool = Form(...)):
+async def predict_api(
+    image_file: bytes = File(...),
+    with_resize: bool = Form(...),
+    with_post_process: bool = Form(...),
+):
     image = prepare_image(image_file, with_resize)
 
     if len(image.shape) != 4:
