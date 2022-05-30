@@ -93,12 +93,19 @@ in the `api` directory):
 The request assumes that you have a file called `cat.jpg` present in your
 working directory.
 
-## TODO (s)
+**Note** that if you don't see any external IP address from your GitHub Actions console log,
+then after successful deployment, do the following:
 
-* Set up logging for the k8s pods.
-* Find a better way to report the latest API endpoint.
+```sh
+# Authenticate to your GKE cluster.
+$ gcloud container clusters get-credentials ${GKE_CLUSTER} --zone {GKE_ZONE} --project {GCP_PROJECT_ID}
+$ kubectl get services -o wide
+```
+
+From there, note the external IP. 
 
 ## Acknowledgements
 
-[ML-GDE program](https://developers.google.com/programs/experts/) for providing GCP credit support.
+* [ML-GDE program](https://developers.google.com/programs/experts/) for providing GCP credit support.
+* [Hannes Hapke](https://www.linkedin.com/in/hanneshapke) for providing might insightful points for conducting load-tests. 
 
