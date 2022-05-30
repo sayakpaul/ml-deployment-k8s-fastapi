@@ -4,6 +4,7 @@ env:
   GCP_PROJECT_ID: "fast-ai-exploration"
   GKE_CLUSTER: "fastapi-cluster"
   GKE_REGION: "us-central1"
+  GKE_ZONE: "us-central1-a"
   IMAGE: "gcr.io/fast-ai-exploration/fastapi-k8s"
   GKE_DEPLOYMENT: "fastapi-server"
 
@@ -34,10 +35,12 @@ jobs:
           gcloud --quiet auth configure-docker
       
       - name: GKE auth
-        uses: google-github-actions/get-gke-credentials@v0
-        with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_REGION }}
+        run: |- 
+          gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$GCP_PROJECT_ID"
+        # uses: google-github-actions/get-gke-credentials@v0
+        # with:
+          # cluster_name: ${{ env.GKE_CLUSTER }}
+          # location: ${{ env.GKE_REGION }}
 
       - name: Check if the requested directories have any changes
         uses: dorny/paths-filter@v2
