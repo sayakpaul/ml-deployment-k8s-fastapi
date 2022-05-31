@@ -26,7 +26,7 @@ async def home():
 
 @app.on_event("startup")
 def load_modules():
-    model_url = get_latest_model_url
+    model_url = get_latest_model_url()
 
     # If there's no latest ONNX model released fall back to the default model.
     if model_url is not None:
