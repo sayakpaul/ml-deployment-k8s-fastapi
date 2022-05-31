@@ -11,9 +11,12 @@ import urllib.request
 import onnxruntime as ort
 from fastapi import FastAPI, File, Form, HTTPException
 
-from utils import decode_predictions, prepare_image
+from utils import decode_predictions, get_latest_model_url, prepare_image
 
 app = FastAPI(title="ONNX image classification API")
+
+MODEL_FN = "resnet50_w_preprocessing.onnx"
+DEFAULT_MODEL_URL = f"https://github.com/sayakpaul/ml-deployment-k8s-fastapi/releases/download/v1.0.0/{MODEL_FN}"
 
 
 @app.get("/")
@@ -23,12 +26,16 @@ async def home():
 
 @app.on_event("startup")
 def load_modules():
-    model_filename = "resnet50_w_preprocessing.onnx"
-    model_url = f"https://github.com/sayakpaul/ml-deployment-k8s-fastapi/releases/download/v1.0.0/{model_filename}"
-    urllib.request.urlretrieve(model_url, model_filename)
+    model_url = get_latest_model_url
+
+    # If there's no latest ONNX model released fall back to the default model.
+    if model_url is not None:
+        urllib.request.urlretrieve(model_url, MODEL_FN)
+    else:
+        urllib.request.urlretrieve(DEFAULT_MODEL_URL, MODEL_FN)
 
     global resnet_model_sess
-    resnet_model_sess = ort.InferenceSession(model_filename)
+    resnet_model_sess = ort.InferenceSession(MODEL_FN)
 
     category_filename = "imagenet_classes.txt"
     category_url = f"https://raw.githubusercontent.com/pytorch/hub/master/{category_filename}"
