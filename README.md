@@ -67,7 +67,11 @@ final outputs should look like so ([run link](https://github.com/sayakpaul/ml-de
 * We use [Kustomize](https://kustomize.io) to manage the deployment on k8s.
 * We conducted load-testing varying the number of workers, RAM, nodes, etc. From that experiment,
   we found out that for our setup, 8 nodes each having 2 vCPUs and 4 GBs of work the best in terms of 
-  throughput and latency. 
+  throughput and latency. The figure below summarizes our results:
+  
+  ![](https://i.ibb.co/NjFp3m9/fastapi-load-test-results.png)
+  
+  You can find the load-testing details under `locust` directory.
 
 ## Querying the API endpoint
 
