@@ -1,12 +1,35 @@
 import io
+import json
 from typing import Dict, List
 
 import numpy as np
+import requests
 from fastapi import HTTPException
+from github import Github
 from PIL import Image
 
 TARGET_IMG_WIDTH = 224
 TARGET_IMG_HEIGHT = 224
+
+
+def get_latest_model_url() -> str:
+    """Gets the model download URL from the latest release artifacts."""
+    g = Github()
+
+    repo = g.get_repo("sayakpaul/ml-deployment-k8s-fastapi")
+    latest_release = repo.get_latest_release()
+    assets = list(latest_release.get_assets())
+
+    download_url = None
+
+    for asset in assets:
+        if "onnx" in asset.name:
+            asset_url = asset.url
+            r = requests.get(asset_url)
+            response = json.loads(r.text)
+            download_url = response["browser_download_url"]
+
+    return download_url
 
 
 def raise_http_exception(msg):
