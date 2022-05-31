@@ -27,7 +27,7 @@ It does the following tasks:
 ## Configurations needed beforehand
 
 * Create a k8s cluster on GKE. [Here's](https://www.youtube.com/watch?v=hxpGC19PzwI) a
-relevant resource. 
+relevant resource. We used 8 nodes (each with 2 vCPUs and 4 GBs of RAM) for the cluster.
 * [Create](https://cloud.google.com/iam/docs/creating-managing-service-account-keys) a
 service account key (JSON) file. It's a good practice to only grant it the roles
 required for the project. For example, for this project, we created a fresh service 
@@ -65,6 +65,13 @@ final outputs should look like so ([run link](https://github.com/sayakpaul/ml-de
   since they are known to provide performance speed-ups for CPU-based environments.
   If you are using GPU-based pods then look into [TensorRT](https://developer.nvidia.com/tensorrt). 
 * We use [Kustomize](https://kustomize.io) to manage the deployment on k8s.
+* We conducted load-testing varying the number of workers, RAM, nodes, etc. From that experiment,
+  we found out that for our setup, 8 nodes each having 2 vCPUs and 4 GBs of work the best in terms of 
+  throughput and latency. The figure below summarizes our results:
+  
+  ![](https://i.ibb.co/NjFp3m9/fastapi-load-test-results.png)
+  
+  You can find the load-testing details under `locust` directory.
 
 ## Querying the API endpoint
 
