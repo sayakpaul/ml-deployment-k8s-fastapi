@@ -37,10 +37,6 @@ jobs:
       - name: GKE auth
         run: |- 
           gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$GCP_PROJECT_ID"
-        # uses: google-github-actions/get-gke-credentials@v0
-        # with:
-          # cluster_name: ${{ env.GKE_CLUSTER }}
-          # location: ${{ env.GKE_REGION }}
 
       - name: Check if the requested directories have any changes
         uses: dorny/paths-filter@v2

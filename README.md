@@ -9,7 +9,8 @@ Engine (GKE)](https://cloud.google.com/kubernetes-engine). We do this integratio
 using [GitHub Actions](https://github.com/features/actions). 
 
 👋 **Note**: Even though this project uses an image classification its structure and techniques can
-be used to serve other models as well.
+be used to serve other models as well. We also worked on a TF Serving equivalent
+of this project. Check it out [here](https://github.com/deep-diver/ml-deployment-k8s-tfserving).
 
 ## Deploying the model as a service with k8s
 
