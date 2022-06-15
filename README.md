@@ -2,6 +2,11 @@
 
 *By: Sayak Paul and [Chansung Park](https://github.com/deep-diver)*
 
+<div align="center">
+<img src="https://i.ibb.co/XLZTbBG/fastapi-ml-deployment.png" width="60%"/><br>
+<sup>Figure developed by Chansung Park</sup>
+</div>
+
 This project shows how to serve an ONNX-optimized image classification model as a
 RESTful web service with FastAPI, Docker, and Kubernetes (k8s). The idea is to first
 Dockerize the API and then deploy it on a k8s cluster running on [Google Kubernetes
