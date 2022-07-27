@@ -63,7 +63,7 @@ contents of the service account key file into the secret.
     ```
 * If you're on the `main` branch already then upon a new push, the worflow defined
 in `.github/workflows/deployment.yaml` should automatically run. Here's how the
-final outputs should look like so ([run link](https://github.com/sayakpaul/ml-deployment-k8s-fastapi/runs/5343002731)):
+final outputs should look like ([run link](https://github.com/sayakpaul/ml-deployment-k8s-fastapi/runs/5343002731)):
 
 ![](https://i.ibb.co/fDGFbpr/Screenshot-2022-03-01-at-12-25-42-PM.png)
 
